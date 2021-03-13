@@ -1,0 +1,14 @@
+if [ $Action = "apply" ]; then
+    terraform init terraform/rmq
+    terraform $Action -var "name=$Name" -var "profile=DevOpsUser" -var "group=$Group" -auto-approve terraform/rmq
+    if [ $Ansible ]; then
+        curl http://localhost:8080/job/RabbitMQ_Configuration/build?token=ansibletest \
+        --user USER:TOKEN
+    fi
+elif [ $Action = "plan" ]; then
+    terraform init terraform/rmq
+    terraform $Action -var "name=$Name" -var "profile=DevOpsUser" -var "group=$Group" terraform/rmq
+else
+    terraform init terraform/rmq
+    terraform $Action -var "name=$Name" -var "profile=DevOpsUser" -var "group=$Group" -auto-approve terraform/rmq
+fi
