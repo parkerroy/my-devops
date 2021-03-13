@@ -19,7 +19,7 @@
 
         - name: Start RMQ
           become: yes
-          shell: systemctl start rabbitmq-server
+          shell: service rabbitmq-server start
 
         - name: Enable admin gui
           become: yes
